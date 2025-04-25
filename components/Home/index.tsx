@@ -15,10 +15,12 @@ const Home = () => {
         <div className="container">
             <div className="center">
                 <h2 className="heading-2">Rick & Morty Character lists</h2>
+                {/* Search input and filter fields below to filter characters */}
                 <SearchInput onChange={handleCharacterSearch} />
                 <FilterFields updateFilter={updateFilter} filterFieldsData={filterFieldsData} />
 
             </div>
+            {/* Listing character cards below and showing loader until data is fetched */}
             {loading ? (
                 <CharacterCardsSkeleton />
             ) : characterLists?.length > 0 ? (
@@ -30,6 +32,7 @@ const Home = () => {
             ) : (
                 <h1 className='noData'>No Data found !</h1>
             )}
+            {/* Pagination below with a condition to show only when data is available and not loading */}
             {!loading && characterLists?.length > 1 && (
                 <Pagination handlePageClick={handlePageClick} pagination={pagination} page={page} />
             )}

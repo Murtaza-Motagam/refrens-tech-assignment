@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react'
 
+// Types of character profile states
 export interface characterProps {
     name: string;
     species: string;
@@ -37,11 +38,12 @@ const useCharacterHook = () => {
     const [charLocation, setCharLocation] = useState<locationProps>();
     const [episodes, setEpisodes] = useState<episodeProps[]>([]);
 
-    const { id } = useParams();
+    const { id } = useParams(); // Fetching id of the character from url
 
     const getCharacter = async () => {
         setLoading(true);
         try {
+            // Api calling to fetch the particular character profile.
             const response = await axios.get(`https://rickandmortyapi.com/api/character/${Number(id)}`);
             const data = response.data;
             const characterData = {
@@ -55,18 +57,20 @@ const useCharacterHook = () => {
                 episode: data.episode,
                 image: data.image,
             }
-            const totalEpisodeInAppeared = data.episode;
-            const episodes = totalEpisodeInAppeared.map((ep: string) => ep.split('/').pop());
-            const location = data.location?.url?.split('/').pop();
-            getLocation(location);
-            getCharacterEpisode(episodes);
-            setCharacter(characterData);
+            const totalEpisodeInAppeared = data.episode; // Storing total episodes in which user is appeared
+            const episodes = totalEpisodeInAppeared.map((ep: string) => ep.split('/').pop()); // Getting number of episode to fetch character appeared episodes
+            const location = data.location?.url?.split('/').pop(); // Storing location id of the character
+            getLocation(location); // Fetching character location
+            getCharacterEpisode(episodes); // Fetching character episode
+            setCharacter(characterData); // setting character data
         } catch (error) {
             console.error('Error fetching character:', error);
         } finally {
             setLoading(false);
         }
     }
+
+    // Fetching location of the character
 
     const getLocation = async (loc: string) => {
         try {
@@ -86,6 +90,8 @@ const useCharacterHook = () => {
             console.error('Error fetching location:', error);
         }
     }
+
+    // Fetching episode of the character
 
     const getCharacterEpisode = async (episode: [string]) => {
         try {

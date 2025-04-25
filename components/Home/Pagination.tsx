@@ -7,6 +7,7 @@ interface paginationComponentProps {
     page: number
 }
 
+// Pagination component to handle pagination
 const Pagination = ({ handlePageClick, pagination, page }: paginationComponentProps) => {
     return (
         <div className="pagination">

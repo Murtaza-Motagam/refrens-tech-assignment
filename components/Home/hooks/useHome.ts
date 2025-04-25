@@ -17,7 +17,7 @@ export interface characterListProps {
 }
 
 const useHome = () => {
-    const [characterLists, setCharacterLists] = useState<characterListProps[]>([]);
+    const [characterLists, setCharacterLists] = useState<characterListProps[]>([]); // State to store character lists
     const [searchCharacter, setSearchCharacter] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
     const [page, setPage] = useState<number>(1);
@@ -32,9 +32,11 @@ const useHome = () => {
         episode: '',
     });
 
+    // Function to fetch all character lists
     const getCharacterList = async (name: string) => {
         setLoading(true);
 
+        // Below code contains logic to add filter fields to the query in url
         const queryParams: string[] = [];
         const paginationParams = `page=${page}`;
         queryParams.push(paginationParams);
@@ -52,6 +54,7 @@ const useHome = () => {
 
         const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
 
+        // Calling api for filter character based on given query
         try {
             const response = await axios.get(`https://rickandmortyapi.com/api/character${queryString}`, {
                 headers: {
@@ -74,6 +77,7 @@ const useHome = () => {
         }
     }
 
+    // Function to handle character search
     const handleCharacterSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         const value = e.target.value;
@@ -87,14 +91,17 @@ const useHome = () => {
         }, 500); // 500ms debounce delay
     }
 
+    // Function to update filter
     const updateFilter = (name: string, value: string) => {
         setFilters(prev => ({ ...prev, [name]: value }));
     };
 
+    // Function to handle pagination
     const handlePageClick = (selectedItem: number) => {
         setPage(selectedItem);
     };
 
+    // Effect to run if filter or search functionality is used
     useEffect(() => {
         getCharacterList(searchCharacter);
     }, [searchCharacter, filters, page]);

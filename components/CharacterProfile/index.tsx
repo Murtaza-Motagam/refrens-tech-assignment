@@ -21,6 +21,7 @@ const CharacterProfile = () => {
     const { character, loading, episodes, charLocation } = useCharacterHook();
     return (
         <div className={styles.profileWrapper}>
+            {/* Showing particular character detail and displaying loader until data fetched */}
             {loading ? (
                 <CharacterProfileSkeleton />
             ) : (
@@ -59,6 +60,7 @@ const CharacterProfile = () => {
                                 <span className={styles.value}>{character?.origin}</span>
                             </div>
                         </div>
+                        {/* Listing location of the character */}
                         <div className={styles.location}>
                             <span className={styles.label}>Location:</span>
                             <p className={styles.value}>
@@ -78,6 +80,7 @@ const CharacterProfile = () => {
                                 {charLocation?.residents}
                             </p>
                         </div>
+                        {/* Listing all episodes of the character below */}
                         <div className={styles.episodeSection}>
                             <h3>Appearance in {character?.episode?.length} Episodes</h3>
                             <div className={styles.episodeList}>
