@@ -22,9 +22,19 @@ export interface episodeProps {
     url: string;
 }
 
+export interface locationProps {
+    id: number;
+    name: string;
+    type: string;
+    dimension: string;
+    residents: string[];
+    created: string;
+}
+
 const useCharacterHook = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [character, setCharacter] = useState<characterProps>();
+    const [charLocation, setCharLocation] = useState<locationProps>();
     const [episodes, setEpisodes] = useState<episodeProps[]>([]);
 
     const { id } = useParams();
@@ -47,12 +57,33 @@ const useCharacterHook = () => {
             }
             const totalEpisodeInAppeared = data.episode;
             const episodes = totalEpisodeInAppeared.map((ep: string) => ep.split('/').pop());
+            const location = data.location?.url?.split('/').pop();
+            getLocation(location);
             getCharacterEpisode(episodes);
             setCharacter(characterData);
         } catch (error) {
             console.error('Error fetching character:', error);
         } finally {
             setLoading(false);
+        }
+    }
+
+    const getLocation = async (loc: string) => {
+        try {
+            const response = await axios.get(`https://rickandmortyapi.com/api/location/${loc}`);
+            const data = response.data;
+            const locData = {
+                name: data.name,
+                type: data.type,
+                dimension: data.dimension,
+                residents: data.residents?.length || 0,
+                created: data.created,
+                id: data.id,
+                url: data.url,
+            }
+            setCharLocation(locData);
+        } catch (error) {
+            console.error('Error fetching location:', error);
         }
     }
 
@@ -92,6 +123,7 @@ const useCharacterHook = () => {
         character,
         loading,
         episodes,
+        charLocation,
     }
 }
 

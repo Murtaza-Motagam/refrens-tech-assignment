@@ -10,8 +10,14 @@ export interface paginationProps {
     prev: string;
 }
 
+export interface characterListProps {
+    id: number;
+    name: string;
+    image: string;
+}
+
 const useHome = () => {
-    const [characterLists, setCharacterLists] = useState<Record <string, unknown>[]>([]);
+    const [characterLists, setCharacterLists] = useState<characterListProps[]>([]);
     const [searchCharacter, setSearchCharacter] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
     const [page, setPage] = useState<number>(1);
@@ -54,7 +60,12 @@ const useHome = () => {
             });
             const data = await response.data;
             setPagination(data.info)
-            setCharacterLists(data?.results);
+            const characterListsObj = data?.results.map((el: characterListProps) => ({
+                id: el?.id,
+                image: el?.image,
+                name: el?.name,
+            }))
+            setCharacterLists(characterListsObj);
         } catch (error) {
             console.warn(error);
             setCharacterLists([]);

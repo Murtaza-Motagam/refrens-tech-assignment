@@ -18,7 +18,7 @@ const CharacterProfileSkeleton = () => {
 
 const CharacterProfile = () => {
 
-    const { character, loading, episodes } = useCharacterHook();
+    const { character, loading, episodes, charLocation } = useCharacterHook();
     return (
         <div className={styles.profileWrapper}>
             {loading ? (
@@ -55,13 +55,28 @@ const CharacterProfile = () => {
                                 <span className={styles.value}>{character?.status}</span>
                             </div>
                             <div>
-                                <span className={styles.label}>Location:</span>
-                                <span className={styles.value}>{character?.location}</span>
-                            </div>
-                            <div>
                                 <span className={styles.label}>Origin:</span>
                                 <span className={styles.value}>{character?.origin}</span>
                             </div>
+                        </div>
+                        <div className={styles.location}>
+                            <span className={styles.label}>Location:</span>
+                            <p className={styles.value}>
+                                <span className={styles.label}>Name:</span>{' '}
+                                {charLocation?.name}
+                            </p>
+                            <p className={styles.value}>
+                                <span className={styles.label}>Type:</span>{' '}
+                                {charLocation?.type}
+                            </p>
+                            <p className={styles.value}>
+                                <span className={styles.label}>Dimension:</span>{' '}
+                                {charLocation?.dimension}
+                            </p>
+                            <p className={styles.value}>
+                                <span className={styles.label}>Residents:</span>{' '}
+                                {charLocation?.residents}
+                            </p>
                         </div>
                         <div className={styles.episodeSection}>
                             <h3>Appearance in {character?.episode?.length} Episodes</h3>

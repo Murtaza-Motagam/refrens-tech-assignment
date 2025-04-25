@@ -2,7 +2,7 @@
 import React from 'react'
 import styles from '@/app/page.module.css'
 import CharacterCards, { CharacterCardsSkeleton } from '../ui/CharacterCards'
-import useHome from './hooks/useHome'
+import useHome, { characterListProps } from './hooks/useHome'
 import SearchInput from '../ui/Input';
 import FilterFields from './FilterFields';
 import Pagination from './Pagination';
@@ -23,7 +23,7 @@ const Home = () => {
                 <CharacterCardsSkeleton />
             ) : characterLists?.length > 0 ? (
                 <div className={styles.grid}>
-                    {characterLists.map((char: any) => (
+                    {characterLists.map((char: characterListProps) => (
                         <CharacterCards key={char.id} char={char} />
                     ))}
                 </div>
